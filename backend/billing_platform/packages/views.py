@@ -37,7 +37,8 @@ class SubscriptionPackageViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         queryset = self.queryset
-        user = self.request.user
+        user = User.objects.get(id=1)  
+        # self.request.user
         
         # Regular users can only see active packages
         if not (user.is_admin or user.is_superuser):
@@ -47,6 +48,7 @@ class SubscriptionPackageViewSet(viewsets.ModelViewSet):
     
     
     def perform_create(self, serializer):
-        user = self.request.user
+        user = User.objects.get(id=1) 
+        # user = self.request.user
         serializer.save(created_by=user)
     
