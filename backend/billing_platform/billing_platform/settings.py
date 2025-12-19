@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'users',
     'packages',
-    'subscriptions'
+    'subscriptions',
+    'invoices',
 ]
 
 MIDDLEWARE = [
@@ -96,6 +97,12 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10  # default items per page
+}
+
 
 
 # Password validation
