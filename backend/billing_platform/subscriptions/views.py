@@ -30,8 +30,7 @@ class UserSubscriptionViewSet(viewsets.ModelViewSet):
         return [IsOwnerOrAdmin()]
     
     def get_queryset(self):
-        user = User.objects.get(id=1) 
-        # self.request.user
+        user = self.request.user
         queryset = self.queryset
         
         # Regular users see only their subscriptions
