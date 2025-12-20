@@ -129,7 +129,6 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def profile(self, request):
         """Get current user profile"""
-        import pdb;pdb.set_trace()
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
 
