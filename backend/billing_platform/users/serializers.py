@@ -84,9 +84,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
         # Include role in response
-        data['role'] = 'admin' if self.user.is_superuser else 'user'
-        data['id'] = self.user.id
+        user_serializer = UserProfileSerializer(self.user)
+        data['user'] = user_serializer.data
+        
         return data
-
     
 
