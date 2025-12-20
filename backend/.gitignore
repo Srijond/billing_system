@@ -1,0 +1,62 @@
+# ===============================
+# Python / Django
+# ===============================
+*.pyc
+*.pyo
+__pycache__/
+.venv/
+venv/
+*.sqlite3
+*.log
+*.pot
+*.py[cod]
+*.pyd
+*.env
+.env.local
+.env.*.local
+*.db
+*.sqlite3-journal
+
+# Django migrations (optional to ignore; sometimes keep for versioning)
+*/migrations/*.py[cod]
+*/migrations/__pycache__/
+
+# Media / uploaded files
+media/
+staticfiles/
+
+# ===============================
+# Node / Vue
+# ===============================
+node_modules/
+dist/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===============================
+# Docker
+# ===============================
+*.dockerignore
+Dockerfile*
+docker-compose.override.yml
+docker-compose.override.yaml
+
+# ===============================
+# IDEs / Editors
+# ===============================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+.DS_Store
+
+# ===============================
+# Others
+# ===============================
+*.swp
+*.bak
+*.tmp
