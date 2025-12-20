@@ -8,14 +8,14 @@ from .serializers import (
     UserSubscriptionSerializer,
     UserSubscriptionListSerializer
 )
-# from apps.users.permissions import IsAdminUser, IsOwnerOrAdmin
+from users.permissions import IsAdminUser, IsOwnerOrAdmin
 
 # Create your views here.
 class UserSubscriptionViewSet(viewsets.ModelViewSet):
     queryset = UserSubscription.objects.select_related(
         'user', 'package', 'assigned_by'
     ).all()
-    # permission_classes = [IsOwnerOrAdmin]
+    permission_classes = [IsOwnerOrAdmin]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user', 'package']
     
@@ -24,10 +24,10 @@ class UserSubscriptionViewSet(viewsets.ModelViewSet):
             return UserSubscriptionListSerializer
         return UserSubscriptionSerializer
     
-    # def get_permissions(self):
-    #     if self.action in ['create', 'update', 'partial_update', 'destroy']:
-    #         return [IsAdminUser()]
-    #     return [IsOwnerOrAdmin()]
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            return [IsAdminUser()]
+        return [IsOwnerOrAdmin()]
     
     def get_queryset(self):
         user = User.objects.get(id=1) 

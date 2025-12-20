@@ -1,5 +1,6 @@
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
@@ -68,5 +69,24 @@ class UserProfileSerializer(serializers.ModelSerializer):
     
     def get_full_name(self, obj):
         return obj.get_full_name()
+    
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['role'] = 'admin' if user.is_superuser else 'user'
+        return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        # Include role in response
+        data['role'] = 'admin' if self.user.is_superuser else 'user'
+        data['id'] = self.user.id
+        return data
+
     
 

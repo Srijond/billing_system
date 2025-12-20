@@ -15,7 +15,7 @@ class InvoiceViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Invoice.objects.select_related(
         'user', 'generated_by'
     ).prefetch_related('items__package').all()
-    # permission_classes = [IsOwnerOrAdmin]
+    permission_classes = [IsOwnerOrAdmin]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ['user']
     ordering_fields = ['created_at', 'total_amount']

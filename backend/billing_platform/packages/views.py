@@ -11,12 +11,12 @@ from .serializers import (
     SubscriptionPackageSerializer,
     SubscriptionPackageListSerializer
 )
-# from apps.users.permissions import IsAdminUser
-# from rest_framework.permissions import IsAuthenticated
+from users.permissions import IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 
 class SubscriptionPackageViewSet(viewsets.ModelViewSet):
     queryset = SubscriptionPackage.objects.select_related('created_by').all()
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['type', 'is_active']
     search_fields = ['name', 'description']
@@ -30,14 +30,14 @@ class SubscriptionPackageViewSet(viewsets.ModelViewSet):
     
     
     
-    # def get_permissions(self):
-    #     if self.action in ['create', 'update', 'partial_update', 'destroy']:
-    #         return [IsAdminUser()]
-    #     return [IsAuthenticated()]
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            return [IsAdminUser()]
+        return [IsAuthenticated()]
     
     def get_queryset(self):
         queryset = self.queryset
-        user = User.objects.get(id=1)  
+        user = self.request.user
         # self.request.user
         
         # Regular users can only see active packages
@@ -48,7 +48,6 @@ class SubscriptionPackageViewSet(viewsets.ModelViewSet):
     
     
     def perform_create(self, serializer):
-        user = User.objects.get(id=1) 
-        # user = self.request.user
+        user = self.request.user
         serializer.save(created_by=user)
     

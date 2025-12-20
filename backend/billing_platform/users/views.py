@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from rest_framework import viewsets, permissions
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .permissions import IsAdminUser, IsOwnerOrAdmin
 from .models import User
 from .serializers import (
     UserSerializer,
     UserDetailSerializer,
-    UserProfileSerializer
+    UserProfileSerializer,
+    MyTokenObtainPairSerializer
 )
 # from .permissions import IsAdminUser, IsOwnerOrAdmin
 
@@ -15,15 +18,15 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    # def get_permissions(self):
-    #     """
-    #     Decide permissions based on action
-    #     """
+    def get_permissions(self):
+        """
+        Decide permissions based on action
+        """
     
-    #     if self.action in ['list','create']:
-    #         return [IsAdminUser()]
-    #     else:
-    #         return [IsOwnerOrAdmin()]
+        if self.action in ['list','create']:
+            return [IsAdminUser()]
+        else:
+            return [IsOwnerOrAdmin()]
 
     def get_serializer_class(self):
         """
@@ -35,3 +38,5 @@ class UserViewSet(viewsets.ModelViewSet):
             return UserProfileSerializer
         return UserSerializer
     
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
